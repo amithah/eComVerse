@@ -1,0 +1,8 @@
+node_modules
+.env
+.vsccode
+.history
+logs
+launch.json
+config.json
+.DS_store
