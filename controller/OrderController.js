@@ -1,8 +1,19 @@
 const Order = require("../model/Order");
 const logger = require("../config/logger");
+const { JWT } = require("../config/authContants");
+const jwt = require('jsonwebtoken');
 
 const create = async (req, res) => {
   try {
+    const token = req.headers.authorization?.split(' ')[1];
+
+    if (!token) {
+      return res.status(401).json({ message: 'Authorization token not found' });
+    }
+    const decodedToken = jwt.verify(token,JWT.SECRET);
+
+    const user = decodedToken.id;
+
     const {
       orderItems,
       customer,
@@ -24,7 +35,7 @@ const create = async (req, res) => {
 
     const order = new Order({
       orderItems,
-      customer,
+      customer:user,
       country,
       billing_address,
       shipping_address,
@@ -40,7 +51,7 @@ const create = async (req, res) => {
       use_wallet,
       phone_no
     });
-
+console.log(order)
     await order.save();
 
     return res.status(201).json({
