@@ -1,11 +1,7 @@
 const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
-  orderItems: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Product', // Reference to the Product model
-    required: true
-  }],
+  orderItems: [],
   customer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -14,28 +10,30 @@ const orderSchema = new mongoose.Schema({
   country: {
     type: String,
   },
-  billing_address: {
+  billingAddress: {
+
+  },
+  shippingAddress: {
+
+  },
+  sameShippingAddress: {
+
+  },
+  shippingMethod:{},
+  paymentMethod:{},
+  shippingSpeed:{},
+  cardPayment:{},
+  deliveryTime: {
     type: String,
   },
-  shipping_address: {
+  paymentGateway: {
     type: String,
   },
-  delivery_time: {
+  paymentSubGateway: {
     type: String,
   },
-  payment_gateway: {
-    type: String,
-  },
-  payment_sub_gateway: {
-    type: String,
-  },
-  customer_contact: {
-    type: String,
-  },
-  customer_name: {
-    type: String,
-  },
-  verified_response: {
+
+  verifiedResponse: {
     type: String,
   },
   coupon: {
@@ -44,22 +42,19 @@ const orderSchema = new mongoose.Schema({
   note: {
     type: String,
   },
-  payable_amount: {
+  payableAmount: {
     type: String,
   },
-  use_wallet: {
+  useWallet: {
     type: Boolean,
     default: false
-  },
-  phone_no: {
-    type: Array,
-    required: true,
   },
   status: {
     type: String,
     enum: ['pending', 'confirmed', 'shipped', 'delivered'],
     default: 'pending'
-  }
+  },
+  total:{}
 }, {
   timestamps: true
 });

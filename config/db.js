@@ -5,6 +5,9 @@
 
 const mongoose = require('mongoose');
 const logger = require('./logger');
+const dotenv = require('dotenv');
+dotenv.config({ path: '.env' });
+
 const uri = process.env.DB_URL;
 mongoose
   .connect(uri, {

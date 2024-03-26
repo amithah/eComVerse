@@ -2,6 +2,7 @@ const Order = require("../model/Order");
 const logger = require("../config/logger");
 const { JWT } = require("../config/authContants");
 const jwt = require('jsonwebtoken');
+const { default: mongoose } = require("mongoose");
 
 const create = async (req, res) => {
   try {
@@ -15,43 +16,18 @@ const create = async (req, res) => {
     const user = decodedToken.id;
 
     const {
-      orderItems,
-      customer,
-      country,
-      billing_address,
-      shipping_address,
-      delivery_time,
-      payment_gateway,
-      payment_sub_gateway,
-      customer_contact,
-      customer_name,
-      verified_response,
-      coupon,
-      note,
-      payable_amount,
-      use_wallet,
-      phone_no
+      orderItems,total,customer,country,billingAddress,shippingAddress,sameShippingAddress,shippingMethod,paymentMethod,shippingSpeed,cardPayment,deliveryTime,paymentGateway,paymentSubGateway,verifiedResponse,coupon,note,payableAmount,useWallet
+
     } = req.body;
 
     const order = new Order({
       orderItems,
+      total,
       customer:user,
       country,
-      billing_address,
-      shipping_address,
-      delivery_time,
-      payment_gateway,
-      payment_sub_gateway,
-      customer_contact,
-      customer_name,
-      verified_response,
-      coupon,
-      note,
-      payable_amount,
-      use_wallet,
-      phone_no
+      billingAddress,shippingAddress,sameShippingAddress,shippingMethod,paymentMethod,shippingSpeed,cardPayment,deliveryTime,paymentGateway,paymentSubGateway,verifiedResponse,coupon,note,payableAmount,useWallet
     });
-console.log(order)
+
     await order.save();
 
     return res.status(201).json({
@@ -83,9 +59,9 @@ const update = async (req, res) => {
   }
 };
 
-const get = async (req, res) => {
+const getAll = async (req, res) => {
   try {
-    const orders = await Order.find({});
+    const orders = await Order.find({}).populate('customer');
     return res.status(200).json({
       data: orders,
     });
@@ -95,8 +71,20 @@ const get = async (req, res) => {
   }
 };
 
+const get = async (req, res) => {
+  try {
+    const order = await Order.findOne({_id:new mongoose.Types.ObjectId(req.params.id)}).populate('customer');
+    return res.status(200).json({
+      data: order
+    });
+  } catch (error) {
+    logger.error(error.message);
+    return res.status(401).json({ data: error.message });
+  }
+};
 module.exports = {
   create,
+  getAll,
   get,
   update,
 };
