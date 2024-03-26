@@ -22,3 +22,4 @@ app.use('/',routes);
 const server = app.listen( PORT,()=>{
     console.log(`server is listening on port ${PORT}`);
 })
+module.exports = app
