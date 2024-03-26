@@ -20,18 +20,18 @@ const logger = createLogger({
     new transports.Console({
       format: format.simple(),
     }),
-    new DailyRotateFile({
-      filename: `${logDir}/%DATE%-error.log`, // Log files will be placed in the "logs" directory
-      datePattern: "YYYY-MM-DD", // Daily log rotation
-      level: "error", // Log error messages and above to this file
-      zippedArchive: true, // Compress old log files
-    }),
-    new DailyRotateFile({
-      filename: `${logDir}/%DATE%-combined.log`,
-      datePattern: "YYYY-MM-DD",
-      level: "info", // Log info messages and above to this file
-      zippedArchive: true,
-    }),
+    // new DailyRotateFile({
+    //   filename: `${logDir}/%DATE%-error.log`, // Log files will be placed in the "logs" directory
+    //   datePattern: "YYYY-MM-DD", // Daily log rotation
+    //   level: "error", // Log error messages and above to this file
+    //   zippedArchive: true, // Compress old log files
+    // }),
+    // new DailyRotateFile({
+    //   filename: `${logDir}/%DATE%-combined.log`,
+    //   datePattern: "YYYY-MM-DD",
+    //   level: "info", // Log info messages and above to this file
+    //   zippedArchive: true,
+    // }),
   ],
 });
 
