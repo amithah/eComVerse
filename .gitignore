@@ -6,3 +6,4 @@ logs
 launch.json
 config.json
 .DS_store
+.vercel
