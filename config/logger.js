@@ -1,7 +1,7 @@
 const { createLogger, transports, format } = require("winston");
 const DailyRotateFile = require("winston-daily-rotate-file");
 
-const logDir = "logs";
+const logDir = "/";
 
 // Define the log format
 const logFormat = format.combine(
