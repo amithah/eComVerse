@@ -9,9 +9,9 @@ global.__basedir = __dirname;
 
 const PORT = process.env.PORT;
 require('./config/db');
-
+const origin = process.env.ORIGIN || 'http://localhost:3000';
 app.use(cors({
-    origin:"http://localhost:3000",
+    origin,
     optionsSuccessStatus:200,
 
 }));
