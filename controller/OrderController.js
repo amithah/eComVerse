@@ -11,7 +11,7 @@ const create = async (req, res) => {
     if (!token) {
       return res.status(401).json({ message: 'Authorization token not found' });
     }
-    const decodedToken = jwt.verify(token,JWT.SECRET);
+    const decodedToken = jwt.verify(token,process.env.JWT_SECRET);
 
     const user = decodedToken.id;
 

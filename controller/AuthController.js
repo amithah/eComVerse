@@ -1,10 +1,11 @@
 const User = require("../model/User");
 const authService = require("../services/auth");
 const { JWT } = require("../config/authContants");
-const NotEnoughCoffee = require("../errors/not-enough-coffee-error");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const logger = require("../config/logger");
+const { default: mongoose } = require("mongoose");
 const register = async (req, res) => {
   try {
     const { email, password, first_name, last_name } = req.body;
@@ -18,7 +19,7 @@ const register = async (req, res) => {
     await user.save();
     const token = await authService.generateToken(
       user,
-      JWT.SECRET,
+      process.env.JWT_SECRET,
       JWT.EXPIRES_IN * 60
     );
     user.set("token", token, { strict: false });
@@ -46,7 +47,7 @@ const login = async (req, res) => {
     }
     const token = await authService.generateToken(
       user,
-      JWT.SECRET,
+      process.env.JWT_SECRET,
       JWT.EXPIRES_IN * 60
     );
     user.set("token", token, { strict: false });
@@ -68,8 +69,10 @@ const getProfile = async (req, res) => {
 
     // Decode the JWT token to get the user data
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    const user = decodedToken.user;
 
+    const userId = decodedToken.id;
+ 
+    const user = await User.findOne({_id:new mongoose.Types.ObjectId(userId)});
     if (!user) {
       return res.status(401).json({ message: "Invalid token" });
     }
