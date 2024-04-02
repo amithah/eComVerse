@@ -9,7 +9,7 @@ global.__basedir = __dirname;
 
 const PORT = process.env.PORT;
 require('./config/db');
-const origin = process.env.ORIGIN || 'http://localhost:3000';
+const origin =['https://e-com-tau-swart.vercel.app','https://shop-ebon-tau.vercel','http://localhost:3000'];
 app.use(cors({
     origin,
     optionsSuccessStatus:200,
